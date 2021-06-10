@@ -7,6 +7,7 @@
 OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature sensors(&oneWire);
 
+WiFiClient client;
 HTTPClient sender;
 
 // WLAN-Daten
@@ -24,7 +25,7 @@ void push(){
 
   //Hier wird der Wert an die Smarthome-Umgebung übertragen
   
-  if (sender.begin("http://SERVERIP:51828/?accessoryId=SENSORID&value=" + String(temperature))){
+  if (sender.begin(client, "http://SERVERIP:51828/?accessoryId=SENSORID&value=" + String(temperature))){
 
     // HTTP-Code der Response speichern
     int httpCode = sender.GET();
